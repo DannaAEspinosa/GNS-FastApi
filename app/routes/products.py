@@ -107,3 +107,20 @@ def partial_update_product(product_id: int, product_update: ProductUpdate):
     
     products_db[product_id] = product
     return product
+
+@router.delete("/{product_id}", status_code=204)
+def delete_product(product_id: int):
+    """
+    Delete a product by its ID.
+
+    Args:
+        product_id (int): The ID of the product to delete.
+
+    Raises:
+        HTTPException: If the product is not found.
+    """
+    if product_id not in products_db:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    del products_db[product_id]
+    return {"message": "Product deleted successfully"}
